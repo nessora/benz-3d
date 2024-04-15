@@ -8,8 +8,8 @@ const App = () => {
   return (
     <div className="main">
       <Canvas>
-        <color attach="background" args={['#000000']} />\
-        <fog attach="fog" args={['#000000', 10, 20]} />
+        <color attach="background" args={['#cecece']} />\
+        <fog attach="fog" args={['#cecece', 10, 20]} />
         <Experience />
       </Canvas>
       <Configurator/>

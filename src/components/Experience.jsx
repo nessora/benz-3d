@@ -25,7 +25,7 @@ const Experience = () => {
             <mesh rotation={[-Math.PI / 2, 0, 0]} position-y={-2}>
                 <planeGeometry args={[170, 170]} />
                 <MeshReflectorMaterial
-                    blur={[300, 100]}
+                    blur={[0, 0]}
                     resolution={2048}
                     mixBlur={1}
                     mixStrength={40}
@@ -34,7 +34,7 @@ const Experience = () => {
                     minDepthThreshold={0.4}
                     maxDepthThreshold={1.4}
                     color="#101010"
-                    metalness={0.5}
+                    metalness={1}
                 />
             </mesh>
         </PresentationControls>
