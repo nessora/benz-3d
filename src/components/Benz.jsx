@@ -6,47 +6,45 @@
   import React, { useRef, useEffect } from 'react'
   import { useGLTF, useTexture } from '@react-three/drei'
   import { useThree } from '@react-three/fiber'
+  import { useCustomization } from '../contexts/Customization'
 
   const Benz = (props) => {
     const { nodes, materials } = useGLTF('./models/benz.glb')
     const carPos = useRef()
+    const carBody = useRef()
     const wheelPos = useRef()
     const wheelBrakePos = useRef()
     // const { camera } = useThree()
+    const {carColor} = useCustomization();
 
-    const roughPlastic = useTexture({
-      map: '../textures/rough-plastic/Plastic_Rough_001_basecolor.jpg',
-      normalMap: '../textures/rough-plastic/Plastic_Rough_001_normal.jpg',
-      roughnessMap: '../textures/rough-plastic/Plastic_Rough_001_roughness.jpg',
-      aoMap: '../textures/rough-plastic/Plastic_Rough_001_ambientOcclusion.jpg'
-    })
     useEffect(() => {
       // Ensure that group.current is defined before accessing its properties
       if (carPos.current) {
-        carPos.current.position.set(0, -1.9, 0) // Set the desired x, y, z position
+        carPos.current.position.set(0, -1.9, -0.7) // Set the desired x, y, z position
         carPos.current.rotation.set(0, 0.8, 0) // Set the desired x, y, z position
-        
-        // wheelPos.current.position.set(0, 5, 0) // Set the desired x, y, z position
         wheelPos.current.rotation.set(0, -0.6, 0) // Set the desired x, y, z position
         wheelBrakePos.current.rotation.set(-1.5, 0, -0.5) // Set the desired x, y, z position
         
-        // 
-        // camera.position.set(0, 2 , 0)
-        // camera.lookAt(0,-0.4,0) 
+        if(carBody.current) {
+          carBody.current.traverse((child) => {
+            if (child.isMesh && child.material && child.material.name === 'carpaint_metalic_white') {
+              // Assuming 'carpaint_metalic_white' is the name of the material assigned to the body mesh
+              child.material.color.set(carColor.color);
+            }
+          });
+        }
+
       }
-      // In summary, using useEffect with an empty dependency array ensures that the position setting logic runs at the right time—after the component has been mounted and the group.current ref is safely defined.
-      // in alte cuvinte useeffect securizeaza ca eu ma refer la current element da nu la undefine din cauza ca useGLTF este asicnron si nu resueste sa incarce modeulul,dar eu deja ma refer la el 
-    }, [])
+    }, [carColor])
 
     return (
       <group {...props} dispose={null} ref={carPos}>
         <group position={[0, 0.212, -0.034]} rotation={[-1.571, 0, 0]}>
-          <mesh geometry={nodes.body.geometry} material={materials.carpaint_metalic_white} position={[0, 1.493, -0.211]} rotation={[Math.PI / 2, Math.PI / 2, 0]} scale={0.001}>
-            {/* <meshStandardMaterial {...roughPlastic}/> */}
+          <mesh geometry={nodes.body.geometry} material={materials.carpaint_metalic_white} position={[0, 1.493, -0.211]} rotation={[Math.PI / 2, Math.PI / 2, 0]} scale={0.001} ref={carBody}>
             <mesh geometry={nodes.black.geometry} material={materials.plastic_shiny_black} />
             <mesh geometry={nodes.black_interior.geometry} material={materials.leather_black} />
-            <mesh geometry={nodes.black_plastic.geometry} material={materials.plastic_shiny_black} />
-            <mesh geometry={nodes.black2.geometry} material={materials.plastic_rough_black_plus2} />
+            <mesh geometry={nodes.black_plastic.geometry} material={materials.plastic_shiny_black}  />
+            <mesh geometry={nodes.black2.geometry} material={materials.plastic_rough_black_plus2}  />
             <mesh geometry={nodes.chrome.geometry} material={materials.chrome} />
             <mesh geometry={nodes.chrome001.geometry} material={materials.chrome} />
             <mesh geometry={nodes.glass.geometry} material={materials.glass_clear} />
@@ -58,7 +56,7 @@
             <mesh geometry={nodes.led.geometry} material={materials.orange_chrome} />
             <mesh geometry={nodes.led001.geometry} material={materials.red} />
             <mesh geometry={nodes.object.geometry} material={materials.mercemblem} position={[0, 0, 0]} />
-            <mesh geometry={nodes.palte.geometry} material={materials.plate} />
+            <mesh geometry={nodes.palte.geometry} material={materials.plate}  />
           </mesh>
         </group>
         <group position={[0.803, 0.353, 1.627]} rotation={[0.377, 0, 0]}>
