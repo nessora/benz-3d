@@ -10,7 +10,7 @@ const App = () => {
     <CustomizationProvider>
       <div className="main">
         <Canvas>
-          <color attach="background" args={['#cecece']} />\
+          <color attach="background" args={['#cecece']} />
           <fog attach="fog" args={['#cecece', 10, 20]} />
           <Experience />
         </Canvas>

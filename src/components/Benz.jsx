@@ -20,10 +20,10 @@
     useEffect(() => {
       // Ensure that group.current is defined before accessing its properties
       if (carPos.current) {
-        carPos.current.position.set(0, -1.9, -0.7) // Set the desired x, y, z position
-        carPos.current.rotation.set(0, 0.8, 0) // Set the desired x, y, z position
-        wheelPos.current.rotation.set(0, -0.6, 0) // Set the desired x, y, z position
-        wheelBrakePos.current.rotation.set(-1.5, 0, -0.5) // Set the desired x, y, z position
+        carPos.current.position.set(3, -1.9, -0.7) // Set the desired x, y, z position
+        carPos.current.rotation.set(0, -1, 0) // Set the desired x, y, z position
+        // wheelPos.current.rotation.set(0, -0.6, 0) // Set the desired x, y, z position
+        // wheelBrakePos.current.rotation.set(-1.5, 0, -0.5) // Set the desired x, y, z position
         
         if(carBody.current) {
           carBody.current.traverse((child) => {
@@ -38,7 +38,7 @@
     }, [carColor])
 
     return (
-      <group {...props} dispose={null} ref={carPos}>
+      <group {...props} dispose={null} ref={carPos} position={[0,-1.9,0.7]}>
         <group position={[0, 0.212, -0.034]} rotation={[-1.571, 0, 0]}>
           <mesh geometry={nodes.body.geometry} material={materials.carpaint_metalic_white} position={[0, 1.493, -0.211]} rotation={[Math.PI / 2, Math.PI / 2, 0]} scale={0.001} ref={carBody}>
             <mesh geometry={nodes.black.geometry} material={materials.plastic_shiny_black} />
